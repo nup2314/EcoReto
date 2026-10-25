@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block titulo %}Estadísticas{% endblock %}
+{% block contenido %}
+<header class="cabecera">
+  <div>
+    <h1>Estadísticas</h1>
+    <p class="suave">Acciones registradas por categoría y por persona.</p>
+  </div>
+</header>
+
+<section class="panel">
+  <h2>Por categoría</h2>
+  {% for c in por_categoria %}
+  <div class="barra">
+    <span>{{ c.categoria }}</span>
+    <div class="barra-pista"><div class="barra-valor" style="width: {{ (c.total / maximo * 100)|round|int }}%"></div></div>
+    <b>{{ c.total }}</b>
+  </div>
+  {% else %}
+  <p class="suave">Aún no hay datos.</p>
+  {% endfor %}
+</section>
+
+<section class="panel">
+  <h2>Quién participa más</h2>
+  {% for p in por_persona %}
+  <div class="barra">
+    <span>{{ p.propuesto_por }}</span>
+    <div class="barra-pista"><div class="barra-valor calido" style="width: {{ (p.total / maximo * 100)|round|int }}%"></div></div>
+    <b>{{ p.total }}</b>
+  </div>
+  {% else %}
+  <p class="suave">Aún no hay datos.</p>
+  {% endfor %}
+</section>
+{% endblock %}

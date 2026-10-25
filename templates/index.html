@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block titulo %}Bitácora{% endblock %}
+{% block contenido %}
+<header class="cabecera">
+  <div>
+    <h1>Bitácora de acciones</h1>
+    <p class="suave">Lo que el grupo ya hizo por el planeta.</p>
+  </div>
+  <a class="btn" href="{{ url_for('main.nueva') }}">+ Nueva acción</a>
+</header>
+
+<section class="resumen">
+  <div><b>{{ resumen.total }}</b><span>acciones</span></div>
+  <div><b>{{ resumen.categorias }}</b><span>categorías</span></div>
+  <div><b>{{ resumen.personas }}</b><span>participantes</span></div>
+</section>
+
+<form class="buscar" method="get">
+  <input name="q" value="{{ q }}" placeholder="Buscar por título o descripción" aria-label="Buscar acción">
+  <button class="btn btn-suave" type="submit">Buscar</button>
+</form>
+
+{% if acciones %}
+<ul class="lista">
+  {% for a in acciones %}
+  <li class="fila cat-{{ a.categoria|lower|replace('í','i')|replace('é','e')|replace('ó','o')|replace('ú','u')|replace('á','a') }}">
+    <div class="fila-texto">
+      <a class="fila-titulo" href="{{ url_for('main.detalle', id=a.id) }}">{{ a.titulo }}</a>
+      <p>{{ a.descripcion }}</p>
+      <small>{{ a.categoria }} · {{ a.fecha.strftime('%d/%m/%Y') }} · {{ a.propuesto_por }}{% if a.impacto %} · {{ a.impacto }}{% endif %}</small>
+    </div>
+    <div class="fila-acciones">
+      <a class="btn btn-suave" href="{{ url_for('main.editar', id=a.id) }}">Editar</a>
+      <form method="post" action="{{ url_for('main.eliminar', id=a.id) }}" data-confirmar="¿Eliminar «{{ a.titulo }}»?">
+        <button class="btn btn-peligro" type="submit">Eliminar</button>
+      </form>
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<div class="vacio">
+  <p>{% if q %}No hay acciones que coincidan con «{{ q }}».{% else %}Todavía no hay acciones registradas.{% endif %}</p>
+  <a class="btn" href="{{ url_for('main.nueva') }}">Registrar la primera</a>
+</div>
+{% endif %}
+{% endblock %}

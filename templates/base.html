@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Eco-Reto{% endblock %} · Eco-Reto</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+  {% if session.usuario %}
+  <div class="app">
+    <aside class="lateral">
+      <a class="marca" href="{{ url_for('main.index') }}">Eco<span>·</span>Reto</a>
+      <nav>
+        <a href="{{ url_for('main.index') }}" class="{{ 'activo' if request.endpoint == 'main.index' }}">Bitácora</a>
+        <a href="{{ url_for('main.nueva') }}" class="{{ 'activo' if request.endpoint == 'main.nueva' }}">Nueva acción</a>
+        <a href="{{ url_for('main.estadisticas') }}" class="{{ 'activo' if request.endpoint == 'main.estadisticas' }}">Estadísticas</a>
+      </nav>
+      <div class="usuario">
+        <small>Sesión de</small>
+        <strong>{{ session.usuario }}</strong>
+        <a href="{{ url_for('main.logout') }}">Cerrar sesión</a>
+      </div>
+    </aside>
+    <main class="contenido">
+      {% with mensajes = get_flashed_messages(with_categories=true) %}
+        {% for tipo, texto in mensajes %}
+          <div class="aviso {{ tipo }}" role="status">{{ texto }}</div>
+        {% endfor %}
+      {% endwith %}
+      {% block contenido %}{% endblock %}
+    </main>
+  </div>
+  {% else %}
+    {% block publico %}{% endblock %}
+  {% endif %}
+  <script src="{{ url_for('static', filename='js/validacion.js') }}"></script>
+</body>
+</html>

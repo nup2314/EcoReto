@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block titulo %}{{ 'Editar acción' if modo == 'editar' else 'Nueva acción' }}{% endblock %}
+{% block contenido %}
+<header class="cabecera">
+  <div>
+    <h1>{{ 'Editar acción' if modo == 'editar' else 'Nueva acción' }}</h1>
+    <p class="suave">{{ 'Modifica los datos y guarda.' if modo == 'editar' else 'Cuenta qué hiciste por el planeta.' }}</p>
+  </div>
+</header>
+
+<form class="formulario" method="post" data-validar>
+  <label for="titulo">Título</label>
+  <input id="titulo" name="titulo" maxlength="80" required value="{{ accion.titulo or '' }}">
+
+  <label for="categoria">Categoría</label>
+  <select id="categoria" name="categoria" required>
+    {% for c in categorias %}
+    <option value="{{ c }}" {{ 'selected' if accion.categoria == c }}>{{ c }}</option>
+    {% endfor %}
+  </select>
+
+  <label for="descripcion">Descripción</label>
+  <textarea id="descripcion" name="descripcion" rows="4" required>{{ accion.descripcion or '' }}</textarea>
+
+  <div class="dos">
+    <div>
+      <label for="fecha">Fecha</label>
+      <input id="fecha" name="fecha" type="date" required
+             value="{{ accion.fecha.isoformat() if accion.fecha and accion.fecha is not string else (accion.fecha or '') }}">
+    </div>
+    <div>
+      <label for="impacto">Impacto (kg, litros, kWh…)</label>
+      <input id="impacto" name="impacto" maxlength="40" placeholder="Ej. 5 kg" value="{{ accion.impacto or '' }}">
+    </div>
+  </div>
+
+  <label for="propuesto_por">Propuesto por</label>
+  <input id="propuesto_por" name="propuesto_por" maxlength="100" required value="{{ accion.propuesto_por or '' }}">
+
+  <div class="botones">
+    <button class="btn" type="submit">{{ 'Guardar cambios' if modo == 'editar' else 'Guardar acción' }}</button>
+    <a class="btn btn-suave" href="{{ url_for('main.index') }}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}

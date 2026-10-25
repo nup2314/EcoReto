@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block titulo %}{{ accion.titulo }}{% endblock %}
+{% block contenido %}
+<header class="cabecera">
+  <div>
+    <h1>{{ accion.titulo }}</h1>
+    <p class="suave">{{ accion.categoria }} · {{ accion.fecha.strftime('%d/%m/%Y') }}</p>
+  </div>
+  <a class="btn btn-suave" href="{{ url_for('main.index') }}">Volver</a>
+</header>
+
+<article class="ficha">
+  <p class="ficha-texto">{{ accion.descripcion }}</p>
+  <dl>
+    <div><dt>Propuesto por</dt><dd>{{ accion.propuesto_por }}</dd></div>
+    <div><dt>Impacto</dt><dd>{{ accion.impacto or 'Sin registrar' }}</dd></div>
+  </dl>
+  <div class="botones">
+    <a class="btn" href="{{ url_for('main.editar', id=accion.id) }}">Editar</a>
+    <form method="post" action="{{ url_for('main.eliminar', id=accion.id) }}" data-confirmar="¿Eliminar «{{ accion.titulo }}»?">
+      <button class="btn btn-peligro" type="submit">Eliminar</button>
+    </form>
+  </div>
+</article>
+<p class="gracias">Cada acción cuenta para un planeta más limpio.</p>
+{% endblock %}

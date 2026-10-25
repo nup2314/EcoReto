@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block titulo %}Crear cuenta{% endblock %}
+{% block publico %}
+<main class="login">
+  <section class="login-lema">
+    <h1>Misión<br>Eco-Reto</h1>
+    <p>Pequeñas acciones, grandes cambios</p>
+  </section>
+  <form class="login-caja" method="post">
+    <h2>Crear cuenta</h2>
+    <p class="suave">Elige un usuario y una contraseña para empezar.</p>
+    {% with mensajes = get_flashed_messages(with_categories=true) %}
+      {% for tipo, texto in mensajes %}<div class="aviso {{ tipo }}">{{ texto }}</div>{% endfor %}
+    {% endwith %}
+    <label for="usuario">Usuario</label>
+    <input id="usuario" name="usuario" autocomplete="username" minlength="3" maxlength="30" required autofocus>
+    <label for="clave">Contraseña (mínimo 6 caracteres)</label>
+    <input id="clave" name="clave" type="password" autocomplete="new-password" minlength="6" required>
+    <label for="repetir">Repite la contraseña</label>
+    <input id="repetir" name="repetir" type="password" autocomplete="new-password" required>
+    <button class="btn" type="submit">Crear cuenta</button>
+    <p class="login-pie">¿Ya tienes cuenta? <a href="{{ url_for('main.login') }}">Inicia sesión</a></p>
+  </form>
+</main>
+{% endblock %}

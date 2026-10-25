@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block titulo %}Iniciar sesión{% endblock %}
+{% block publico %}
+<main class="login">
+  <section class="login-lema">
+    <h1>Misión<br>Eco-Reto</h1>
+    <p>Pequeñas acciones, grandes cambios</p>
+  </section>
+  <form class="login-caja" method="post">
+    <h2>Iniciar sesión</h2>
+    <p class="suave">Ingresa para registrar tus acciones ecológicas.</p>
+    {% with mensajes = get_flashed_messages(with_categories=true) %}
+      {% for tipo, texto in mensajes %}<div class="aviso {{ tipo }}">{{ texto }}</div>{% endfor %}
+    {% endwith %}
+    <label for="usuario">Usuario</label>
+    <input id="usuario" name="usuario" autocomplete="username" required autofocus>
+    <label for="clave">Contraseña</label>
+    <input id="clave" name="clave" type="password" autocomplete="current-password" required>
+    <button class="btn" type="submit">Entrar</button>
+    <p class="login-pie">¿No tienes cuenta? <a href="{{ url_for('main.registro') }}">Regístrate</a></p>
+  </form>
+</main>
+{% endblock %}
