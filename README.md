@@ -10,7 +10,3 @@ Aplicación Flask para registrar acciones ecológicas del grupo (CRUD) con Postg
 ## Render
 - Build Command: `pip install -r requirements.txt`
 - Start Command: `gunicorn run:app`
-
-## Enlaces
-- App pública: _(pega aquí tu URL de Render)_
-- Repositorio: _(pega aquí tu URL de GitHub)_
